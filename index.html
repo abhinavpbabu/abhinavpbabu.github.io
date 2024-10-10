@@ -76,7 +76,6 @@
 </head>
 <body>
 
-    <!-- Background img: https://commons.wikimedia.org/wiki/File:Night_stars_berlin.png -->
     <div class="orbit-container">
         <div class="orbit" id="orbit">
             <div class="profile" id="profile"></div>
@@ -130,21 +129,33 @@
             });
         }, 50); // Update every 50 milliseconds
     
-        // Smooth scroll animation
+        // Smooth scroll animation for mouse wheel
         let animation;
         window.addEventListener('wheel', (e) => {
             e.preventDefault();
-    
-            // Cancel any ongoing animation
+            updateRotation(e.deltaY);
+        }, { passive: false });
+
+        // Smooth scroll animation for touch swipe
+        let startY;
+        window.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            const deltaY = startY - e.touches[0].clientY;
+            updateRotation(deltaY);
+            startY = e.touches[0].clientY; // Update startY for continuous movement
+        });
+
+        function updateRotation(deltaY) {
             if (animation) animation.kill();
-            
-            // Calculate new target rotation based on scroll
-            targetRotationY += e.deltaY * scrollSensitivity; // Decrease scroll sensitivity
+            targetRotationY += deltaY * scrollSensitivity; // Update target rotation based on scroll/swipe
     
             // Animate orbit rotation
             animation = gsap.to(orbit, {
                 duration: 0.5,
-                ease: "power2.out", // Smoother easing function
+                ease: "power2.out",
                 rotationY: targetRotationY,
                 onUpdate: () => {
                     // Update rotationY for profile
@@ -156,7 +167,7 @@
                     });
                 }
             });
-        }, { passive: false });
+        }
     
         function showProjectDetails(projectId) {
             projectDetails.innerHTML = `
@@ -171,8 +182,5 @@
             projectDetails.style.display = 'none';
         }
     </script>
-    
-    
-    
 </body>
 </html>
