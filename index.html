@@ -91,7 +91,9 @@
         const profile = document.getElementById('profile');
         const projectDetails = document.getElementById('projectDetails');
         let rotationY = 0;
-        const rotationSpeed = 0.05; // Speed of rotation in degrees per interval
+        let targetRotationY = 0; // Target rotation for smoother animation
+        const rotationSpeed = 0.05; // Default rotation speed
+        const scrollSensitivity = 0.02; // Sensitivity for scroll
     
         // Create project elements
         for (let i = 0; i < numProjects; i++) {
@@ -115,16 +117,16 @@
     
             // Rotate orbit and counteract rotation on profile
             gsap.to(orbit, {
-                duration: 0.1, // Short duration for smoothness
+                duration: 0.1,
                 rotationY: rotationY,
-                ease: "linear"
+                ease: "power1.out"
             });
     
             // Apply opposite rotation to profile
             gsap.to(profile, {
                 duration: 0.1,
                 rotationY: -rotationY,
-                ease: "linear"
+                ease: "power1.out"
             });
         }, 50); // Update every 50 milliseconds
     
@@ -132,25 +134,27 @@
         let animation;
         window.addEventListener('wheel', (e) => {
             e.preventDefault();
-            
+    
             // Cancel any ongoing animation
             if (animation) animation.kill();
             
-            // Calculate new rotation
-            rotationY += e.deltaY * 0.1; // Adjust the multiplier to control rotation speed
+            // Calculate new target rotation based on scroll
+            targetRotationY += e.deltaY * scrollSensitivity; // Decrease scroll sensitivity
     
             // Animate orbit rotation
             animation = gsap.to(orbit, {
                 duration: 0.5,
-                ease: "power1.out",
-                rotationY: rotationY
-            });
-    
-            // Apply opposite rotation to profile
-            gsap.to(profile, {
-                duration: 0.5,
-                ease: "power1.out",
-                rotationY: -rotationY
+                ease: "power2.out", // Smoother easing function
+                rotationY: targetRotationY,
+                onUpdate: () => {
+                    // Update rotationY for profile
+                    rotationY = targetRotationY;
+                    gsap.to(profile, {
+                        duration: 0.5,
+                        ease: "power2.out",
+                        rotationY: -rotationY
+                    });
+                }
             });
         }, { passive: false });
     
@@ -167,6 +171,7 @@
             projectDetails.style.display = 'none';
         }
     </script>
+    
     
     
 </body>
