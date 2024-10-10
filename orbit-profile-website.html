@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            background-image: url('background.png'); /* Starry sky */
+            background-size: cover;
+            background-position: center;
+        }
+        .orbit-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 800px;
+        }
+        .orbit {
+            width: 600px;
+            height: 600px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .profile {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-image: url('pxArt.png');
+            background-size: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); /* Glow effect */
+            z-index: 10;
+        }
+        .project {
+            width: 60px;
+            height: 60px;
+            background-color: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Star-like glow */
+        }
+        .project:hover {
+            transform: scale(1.2) translateZ(20px);
+        }
+        #projectDetails {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background img: https://commons.wikimedia.org/wiki/File:Night_stars_berlin.png -->
+    <div class="orbit-container">
+        <div class="orbit" id="orbit">
+            <div class="profile" id="profile"></div>
+            <!-- Projects will be added here by JavaScript -->
+        </div>
+    </div>
+    <div id="projectDetails"></div>
+
+    <script>
+        const numProjects = 8;
+        const orbit = document.getElementById('orbit');
+        const profile = document.getElementById('profile');
+        const projectDetails = document.getElementById('projectDetails');
+        let rotationY = 0;
+        const rotationSpeed = 0.05; // Speed of rotation in degrees per interval
+    
+        // Create project elements
+        for (let i = 0; i < numProjects; i++) {
+            const project = document.createElement('div');
+            project.className = 'project';
+            const angle = (i / numProjects) * Math.PI * 2;
+            const radius = 500;
+            project.style.transform = `
+                rotateY(${i * (360 / numProjects)}deg)
+                translateZ(${radius}px)
+            `;
+            project.dataset.projectId = i + 1;
+            orbit.appendChild(project);
+    
+            project.addEventListener('click', () => showProjectDetails(i + 1));
+        }
+    
+        // Default rotation
+        setInterval(() => {
+            rotationY += rotationSpeed; // Increment the rotation
+    
+            // Rotate orbit and counteract rotation on profile
+            gsap.to(orbit, {
+                duration: 0.1, // Short duration for smoothness
+                rotationY: rotationY,
+                ease: "linear"
+            });
+    
+            // Apply opposite rotation to profile
+            gsap.to(profile, {
+                duration: 0.1,
+                rotationY: -rotationY,
+                ease: "linear"
+            });
+        }, 50); // Update every 50 milliseconds
+    
+        // Smooth scroll animation
+        let animation;
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            // Cancel any ongoing animation
+            if (animation) animation.kill();
+            
+            // Calculate new rotation
+            rotationY += e.deltaY * 0.1; // Adjust the multiplier to control rotation speed
+    
+            // Animate orbit rotation
+            animation = gsap.to(orbit, {
+                duration: 0.5,
+                ease: "power1.out",
+                rotationY: rotationY
+            });
+    
+            // Apply opposite rotation to profile
+            gsap.to(profile, {
+                duration: 0.5,
+                ease: "power1.out",
+                rotationY: -rotationY
+            });
+        }, { passive: false });
+    
+        function showProjectDetails(projectId) {
+            projectDetails.innerHTML = `
+                <h2>Project ${projectId}</h2>
+                <p>This is the detailed information for Project ${projectId}.</p>
+                <button onclick="closeProjectDetails()">Close</button>
+            `;
+            projectDetails.style.display = 'block';
+        }
+    
+        function closeProjectDetails() {
+            projectDetails.style.display = 'none';
+        }
+    </script>
+    
+    
+</body>
+</html>
