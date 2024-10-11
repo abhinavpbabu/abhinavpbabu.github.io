@@ -1,0 +1,137 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    background-image: url('background.png'); /* Starry sky */
+    background-size: cover;
+    background-position: center;
+}
+.orbit-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 800px;
+}
+.orbit {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+.profile {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url('pxArt.png');
+    background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); /* Glow effect */
+    z-index: 10;
+}
+.project {
+    width: 60px;
+    height: 60px;
+    background-color: #3498db;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Star-like glow */
+}
+.project:hover {
+    transform: scale(1.2) translateZ(20px);
+}
+#projectDetails {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 100;
+}
+
+.project-link-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.project-link-button:hover {
+    background-color: #2980b9;
+}
+
+.project-links {
+    margin-top: 15px;
+}
+
+/* Close button styled as an "X" in the top-right corner */
+.close-button {
+position: absolute;
+top: 10px;
+right: 15px;
+font-size: 24px;
+font-weight: bold;
+color: #333;
+cursor: pointer;
+transition: color 0.3s ease;
+}
+
+.close-button:hover {
+color: #000;
+}
+
+/* Update projectDetails container */
+#projectDetails {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0,0,0,0.3);
+z-index: 100;
+display: none;
+max-width: 90vw;
+max-height: 90vh;
+overflow-y: auto;
+position: fixed;
+}
+
+/* Ensure the close button remains inside the project details content */
+.project-details-content {
+position: relative;
+}
+
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: none; /* Initially hidden */
+    z-index: 99; /* Ensure it sits below projectDetails */
+}

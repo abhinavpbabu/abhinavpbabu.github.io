@@ -5,74 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orbit Profile</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            background-image: url('background.png'); /* Starry sky */
-            background-size: cover;
-            background-position: center;
-        }
-        .orbit-container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 800px;
-        }
-        .orbit {
-            width: 600px;
-            height: 600px;
-            position: relative;
-            transform-style: preserve-3d;
-        }
-        .profile {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background-image: url('pxArt.png');
-            background-size: cover;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); /* Glow effect */
-            z-index: 10;
-        }
-        .project {
-            width: 60px;
-            height: 60px;
-            background-color: #3498db;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Star-like glow */
-        }
-        .project:hover {
-            transform: scale(1.2) translateZ(20px);
-        }
-        #projectDetails {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 100;
-        }
-    </style>
+ 
+    <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
 
@@ -82,118 +17,10 @@
             <!-- Projects will be added here by JavaScript -->
         </div>
     </div>
+    <div id="overlay" style="display:none;"></div>
     <div id="projectDetails"></div>
 
-    <script>
-        const orbit = document.getElementById('orbit');
-        const profile = document.getElementById('profile');
-        const projectDetails = document.getElementById('projectDetails');
-        let rotationY = 0;
-        let targetRotationY = 0;
-        const rotationSpeed = 0.05;
-        const scrollSensitivity = 0.02;
-    
-        // Load projects from JSON file
-        fetch('projects.json')
-        .then(response => response.json())
-        .then(projects => {
-            projects.forEach((project, i) => {
-                const projectElement = document.createElement('div');
-                projectElement.className = 'project';
-                const angle = (i / projects.length) * Math.PI * 2;
-                const radius = 500;
-                projectElement.style.transform = `
-                    rotateY(${i * (360 / projects.length)}deg)
-                    translateZ(${radius}px)
-                `;
-                projectElement.dataset.projectId = i;
-
-                // Set the background image for the project element
-                projectElement.style.backgroundImage = `url(${project.imageUrl})`;
-                projectElement.style.backgroundSize = 'cover'; // Ensure the image covers the entire element
-                projectElement.style.backgroundPosition = 'center'; // Center the image
-                
-                orbit.appendChild(projectElement);
-
-                // Attach event listener to show project details
-                projectElement.addEventListener('click', () => showProjectDetails(project));
-            });
-        });
-
-
-        // Default rotation
-        setInterval(() => {
-            rotationY += rotationSpeed;
-            gsap.to(orbit, {
-                duration: 0.1,
-                rotationY: rotationY,
-                ease: "power1.out"
-            });
-            gsap.to(profile, {
-                duration: 0.1,
-                rotationY: -rotationY,
-                ease: "power1.out"
-            });
-        }, 50);
-    
-        // Smooth scroll animation for mouse wheel
-        let animation;
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            updateRotation(e.deltaY);
-        }, { passive: false });
-
-        // Smooth scroll animation for touch swipe
-        let startY;
-        window.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            const deltaY = startY - e.touches[0].clientY;
-            updateRotation(deltaY);
-            startY = e.touches[0].clientY; // Update startY for continuous movement
-        });
-
-        function updateRotation(deltaY) {
-            if (animation) animation.kill();
-            targetRotationY += deltaY * scrollSensitivity; // Update target rotation based on scroll/swipe
-    
-            // Animate orbit rotation
-            animation = gsap.to(orbit, {
-                duration: 0.5,
-                ease: "power2.out",
-                rotationY: targetRotationY,
-                onUpdate: () => {
-                    // Update rotationY for profile
-                    rotationY = targetRotationY;
-                    gsap.to(profile, {
-                        duration: 0.5,
-                        ease: "power2.out",
-                        rotationY: -rotationY
-                    });
-                }
-            });
-        }
-    
-        function showProjectDetails(project) {
-        projectDetails.innerHTML = `
-            <h2>${project.title}</h2>
-            <p>${project.description}</p>
-            <img src="${project.imageUrl}" alt="${project.title}" style="max-width: 100%;"/>
-            <h3>Links:</h3>
-            <ul>
-                ${project.links.map(link => `<li><a href="${link.url}" target="_blank">${link.label}</a></li>`).join('')}
-            </ul>
-            <button onclick="closeProjectDetails()">Close</button>
-        `;
-        projectDetails.style.display = 'block';
-    }
-
-    function closeProjectDetails() {
-        projectDetails.style.display = 'none';
-    }
-</script>
+    <script src="script.js"></script>
 
 </body>
 </html>
