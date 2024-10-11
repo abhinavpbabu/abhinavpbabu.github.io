@@ -85,49 +85,56 @@
     <div id="projectDetails"></div>
 
     <script>
-        const numProjects = 8;
         const orbit = document.getElementById('orbit');
         const profile = document.getElementById('profile');
         const projectDetails = document.getElementById('projectDetails');
         let rotationY = 0;
-        let targetRotationY = 0; // Target rotation for smoother animation
-        const rotationSpeed = 0.05; // Default rotation speed
-        const scrollSensitivity = 0.02; // Sensitivity for scroll
+        let targetRotationY = 0;
+        const rotationSpeed = 0.05;
+        const scrollSensitivity = 0.02;
     
-        // Create project elements
-        for (let i = 0; i < numProjects; i++) {
-            const project = document.createElement('div');
-            project.className = 'project';
-            const angle = (i / numProjects) * Math.PI * 2;
-            const radius = 500;
-            project.style.transform = `
-                rotateY(${i * (360 / numProjects)}deg)
-                translateZ(${radius}px)
-            `;
-            project.dataset.projectId = i + 1;
-            orbit.appendChild(project);
-    
-            project.addEventListener('click', () => showProjectDetails(i + 1));
-        }
-    
+        // Load projects from JSON file
+        fetch('projects.json')
+        .then(response => response.json())
+        .then(projects => {
+            projects.forEach((project, i) => {
+                const projectElement = document.createElement('div');
+                projectElement.className = 'project';
+                const angle = (i / projects.length) * Math.PI * 2;
+                const radius = 500;
+                projectElement.style.transform = `
+                    rotateY(${i * (360 / projects.length)}deg)
+                    translateZ(${radius}px)
+                `;
+                projectElement.dataset.projectId = i;
+
+                // Set the background image for the project element
+                projectElement.style.backgroundImage = `url(${project.imageUrl})`;
+                projectElement.style.backgroundSize = 'cover'; // Ensure the image covers the entire element
+                projectElement.style.backgroundPosition = 'center'; // Center the image
+                
+                orbit.appendChild(projectElement);
+
+                // Attach event listener to show project details
+                projectElement.addEventListener('click', () => showProjectDetails(project));
+            });
+        });
+
+
         // Default rotation
         setInterval(() => {
-            rotationY += rotationSpeed; // Increment the rotation
-    
-            // Rotate orbit and counteract rotation on profile
+            rotationY += rotationSpeed;
             gsap.to(orbit, {
                 duration: 0.1,
                 rotationY: rotationY,
                 ease: "power1.out"
             });
-    
-            // Apply opposite rotation to profile
             gsap.to(profile, {
                 duration: 0.1,
                 rotationY: -rotationY,
                 ease: "power1.out"
             });
-        }, 50); // Update every 50 milliseconds
+        }, 50);
     
         // Smooth scroll animation for mouse wheel
         let animation;
@@ -169,18 +176,24 @@
             });
         }
     
-        function showProjectDetails(projectId) {
-            projectDetails.innerHTML = `
-                <h2>Project ${projectId}</h2>
-                <p>This is the detailed information for Project ${projectId}.</p>
-                <button onclick="closeProjectDetails()">Close</button>
-            `;
-            projectDetails.style.display = 'block';
-        }
-    
-        function closeProjectDetails() {
-            projectDetails.style.display = 'none';
-        }
-    </script>
+        function showProjectDetails(project) {
+        projectDetails.innerHTML = `
+            <h2>${project.title}</h2>
+            <p>${project.description}</p>
+            <img src="${project.imageUrl}" alt="${project.title}" style="max-width: 100%;"/>
+            <h3>Links:</h3>
+            <ul>
+                ${project.links.map(link => `<li><a href="${link.url}" target="_blank">${link.label}</a></li>`).join('')}
+            </ul>
+            <button onclick="closeProjectDetails()">Close</button>
+        `;
+        projectDetails.style.display = 'block';
+    }
+
+    function closeProjectDetails() {
+        projectDetails.style.display = 'none';
+    }
+</script>
+
 </body>
 </html>
