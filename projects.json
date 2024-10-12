@@ -5,16 +5,16 @@
         "title": "CloudPy",
         "description": "Run advanced Python libraries on the Cloud",
         "thumbnailImageUrl": "https://raw.githubusercontent.com/thesophile/cloudpy-public-media/main/icon-2_transparent.png",
-        "detailImageUrl": "detail1.jpg",
+        "detailImageUrl": "img/cloudpy2.png",
         "links": {
-            "code": "https://github.com/user/project1",
-            "demo": "https://project1-demo.com"
+            "code": "https://github.com/thesophile/CloudPy",
+            "demo": "https://cloudpy.online"
         }
     },
     {
-        "title": "Project 2",
+        "title": "Appoint",
         "description": "This is the second project.",
-        "thumbnailImageUrl": "thumb2.jpg",
+        "thumbnailImageUrl": "img/appoint.jpeg",
         "detailImageUrl": "detail2.jpg",
         "links": {
             "code": "https://github.com/user/project2",
@@ -22,13 +22,13 @@
         }
     },
     {
-        "title": "Project 2",
-        "description": "This is the second project.",
-        "thumbnailImageUrl": "thumb2.jpg",
-        "detailImageUrl": "detail2.jpg",
+        "title": "ChemLab",
+        "description": "Virtual Chemistry Lab for Cation Analysis Simulation",
+        "thumbnailImageUrl": "img/chemlab_logo.jpeg",
+        "detailImageUrl": "img/chemlab.png",
         "links": {
-            "code": "https://github.com/user/project2",
-            "demo": "https://project2-demo.com"
+            "code": "https://github.com/thesophile/ChemLab",
+            "demo": "thesophile.github.io/ChemLab"
         }
     },
     {
