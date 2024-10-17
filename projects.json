@@ -4,8 +4,12 @@
     {
         "title": "CloudPy",
         "description": "Run advanced Python libraries on the Cloud",
-        "thumbnailImageUrl": "https://raw.githubusercontent.com/thesophile/cloudpy-public-media/main/icon-2_transparent.png",
-        "detailImageUrl": "img/cloudpy2.png",
+        "thumbnailImageUrl": "img/thumb/cloudpy_thumb.png",
+        "detailImage": {
+            "url":"img/cloudpy2.png",
+            "width":400,
+            "height":178
+        },
         "links": {
             "code": "https://github.com/thesophile/CloudPy",
             "demo": "https://cloudpy.online"
@@ -15,7 +19,11 @@
         "title": "Appoint",
         "description": "This is the second project.",
         "thumbnailImageUrl": "img/appoint.jpeg",
-        "detailImageUrl": "detail2.jpg",
+        "detailImage": {
+            "url":"img/cloudpy2.png",
+            "width":337,
+            "height":150
+        },
         "links": {
             "code": "https://github.com/user/project2",
             "demo": "https://project2-demo.com"
@@ -24,8 +32,12 @@
     {
         "title": "ChemLab",
         "description": "Virtual Chemistry Lab for Cation Analysis Simulation",
-        "thumbnailImageUrl": "img/chemlab_logo.jpeg",
-        "detailImageUrl": "img/chemlab.png",
+        "thumbnailImageUrl": "img/thumb/chemlab_logo.jpeg",
+        "detailImage": {
+            "url":"img/chemlab.png",
+            "width":337,
+            "height":150
+        },
         "links": {
             "code": "https://github.com/thesophile/ChemLab",
             "demo": "thesophile.github.io/ChemLab"
@@ -35,7 +47,11 @@
         "title": "Project 2",
         "description": "This is the second project.",
         "thumbnailImageUrl": "thumb2.jpg",
-        "detailImageUrl": "detail2.jpg",
+        "detailImage": {
+            "url":"img/cloudpy2.png",
+            "width":337,
+            "height":150
+        },
         "links": {
             "code": "https://github.com/user/project2",
             "demo": "https://project2-demo.com"
@@ -45,7 +61,11 @@
         "title": "Project 2",
         "description": "This is the second project.",
         "thumbnailImageUrl": "thumb2.jpg",
-        "detailImageUrl": "detail2.jpg",
+        "detailImage": {
+            "url":"img/cloudpy2.png",
+            "width":337,
+            "height":150
+        },
         "links": {
             "code": "https://github.com/user/project2",
             "demo": "https://project2-demo.com"
@@ -55,7 +75,11 @@
         "title": "Project 2",
         "description": "This is the second project.",
         "thumbnailImageUrl": "thumb2.jpg",
-        "detailImageUrl": "detail2.jpg",
+        "detailImage": {
+            "url":"img/cloudpy2.png",
+            "width":337,
+            "height":150
+        },
         "links": {
             "code": "https://github.com/user/project2",
             "demo": "https://project2-demo.com"

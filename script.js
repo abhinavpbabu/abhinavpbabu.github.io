@@ -95,7 +95,7 @@ const orbit = document.getElementById('orbit');
                 <span class="close-button" onclick="closeProjectDetails()">×</span>
                 <h2>${project.title}</h2>
                 <p>${project.description}</p>
-                <img src="${project.detailImageUrl}" alt="${project.title}" style="max-width: 80%; height: auto;" />
+                <img src="${project.detailImage.url}" alt="${project.title}" style="width: ${project.detailImage.width}px; height: ${project.detailImage.height}px;" />
                 <div class="project-links">
                     <a href="${project.links.code}" target="_blank" class="project-link-button">Code</a>
                     <a href="${project.links.demo}" target="_blank" class="project-link-button">Demo</a>
